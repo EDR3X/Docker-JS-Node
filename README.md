@@ -41,3 +41,35 @@
 `docker system prune -a`
 
 > **Very Dangerous Command** this permanently removes all containers and images in a system
+
+# docker-compose.yaml
+
+## Demo docker-compose.yaml file
+
+```version: "3.8"
+services:
+  api:
+    build: ./api
+    container_name: api_c
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./api:/app
+      - ./app/node_modules
+```
+
+> `build:` requires relative path to the DockerFile
+
+> `container:` requires name of container to save to
+
+> `ports:` requires multiple ports to map system and container's port
+
+> `volumes:` requires list of volumes that maps system's folder to container i.e. form above we can say that `./api` is mapped to `/app` of a container, `./app/node_modules` is there so that it won't get deleted every time the file changes.
+
+## Commands to run/stop docker-compose.yaml file
+
+`docker-compose up` > runs docker-compose.yaml file
+
+`docker-compose down` > stops docker-compose.yaml file and only removes container
+
+`docker-compose down --rmi all -v` > stops docker-compose.yaml and deletes all Image, Container and Volume
