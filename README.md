@@ -1,5 +1,44 @@
 # Command Cheatsheet
 
+## Demo Dockerfile
+
+```Dockerfile
+FROM node:17-alpine
+
+RUN npm install -g nodemon
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 4000
+
+CMD ["npm", "run", "dev"]
+
+```
+
+### Details of Dockerfile
+
+> `FROM node:17-alpine` imports node version 17 on alpine linux
+>
+> `RUN npm install -g nodemon` installs nodemon as global dependency on specified platform above
+>
+> `WORKDIR /app` specifies directory on a container
+>
+> `COPY package.json .` copies package.json to that particular directory on container
+>
+> `RUN npm install` installs all other dependencies present in package.json
+>
+> `COPY . .` copies all file form workind directory to container directory i.e. /app
+>
+> `EXPOSE 4000` exposes port of a container
+>
+> `CMD ["npm", "run", "dev"]` start the script from package.json
+
 ## Building a Image
 
 `docker build -t myImage .`
@@ -46,7 +85,8 @@
 
 ## Demo docker-compose.yaml file
 
-```version: "3.8"
+```yaml
+version: "3.8"
 services:
   api:
     build: ./api
@@ -59,11 +99,11 @@ services:
 ```
 
 > `build:` requires relative path to the DockerFile
-
+>
 > `container:` requires name of container to save to
-
+>
 > `ports:` requires multiple ports to map system and container's port
-
+>
 > `volumes:` requires list of volumes that maps system's folder to container i.e. form above we can say that `./api` is mapped to `/app` of a container, `./app/node_modules` is there so that it won't get deleted every time the file changes.
 
 ## Commands to run/stop docker-compose.yaml file
